@@ -30,34 +30,5 @@ jobs:
           SHORT_HASH=$(git rev-parse --short HEAD)
           REPO="${GITHUB_REPOSITORY}"
 
-          python3 - "$COMMIT_MSG" "$AUTHOR" "$BRANCH" "$SHORT_HASH" "$REPO" <<'EOF'
-import urllib.request, json, os, sys
-
-token    = os.environ['TELEGRAM_BOT_TOKEN']
-chat_id  = os.environ['TELEGRAM_CHAT_ID']
-
-commit_msg, author, branch, short_hash, repo = sys.argv[1:]
-
-text = (
-    f"<b>Git Push</b>\n"
-    f"Repo  : <code>{repo}</code>\n"
-    f"Branch: <code>{branch}</code>\n"
-    f"Commit: <code>{short_hash}</code>\n"
-    f"Author: {author}\n\n"
-    f"{commit_msg}"
-)
-
-payload = json.dumps({
-    'chat_id':    chat_id,
-    'text':       text,
-    'parse_mode': 'HTML'
-}).encode('utf-8')
-
-req = urllib.request.Request(
-    f'https://api.telegram.org/bot{token}/sendMessage',
-    data=payload,
-    headers={'Content-Type': 'application/json; charset=utf-8'}
-)
-urllib.request.urlopen(req)
-print('Telegram notification sent!')
-EOF
+          python3 .github/scripts/send_telegram.py \
+            "$COMMIT_MSG" "$AUTHOR" "$BRANCH" "$SHORT_HASH" "$REPO"

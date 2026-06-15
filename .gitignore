@@ -42,6 +42,11 @@ coverage/
 # Entity Framework migrations (若有需要保留，請移除此行)
 # Migrations/
 
+## Cursor
+# rules/skills 透過 Junction 指向個人共用資料夾，不隨 repo 上傳
+.cursor/rules/
+.cursor/skills/
+
 ## Secrets & Configuration
 
 # 本地覆寫設定（含真實 token，不可 commit）

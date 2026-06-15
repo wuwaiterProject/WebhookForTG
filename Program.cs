@@ -1,8 +1,9 @@
+using dotenv.net;
 using WebhookForTG.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+DotEnv.Load();
 
-builder.Configuration.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true);
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 

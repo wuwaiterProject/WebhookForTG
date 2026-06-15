@@ -1,0 +1,76 @@
+## .NET / C#
+
+# Build output
+bin/
+obj/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+# Restore lock file (keep if using lock mode)
+# package.lock.json
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Publish output
+**/publish/
+**/PublishProfiles/
+
+# Test results
+TestResults/
+*.trx
+*.coveragexml
+coverage/
+
+# Entity Framework migrations (若有需要保留，請移除此行)
+# Migrations/
+
+## Secrets & Configuration
+
+# 本地覆寫設定（含真實 token，不可 commit）
+appsettings.local.json
+appsettings.*.local.json
+secrets.json
+
+# .NET user secrets
+**/Properties/launchSettings.json
+
+# Docker
+.dockerignore
+
+## OS
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+## Logs
+
+*.log
+logs/

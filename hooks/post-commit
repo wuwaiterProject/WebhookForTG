@@ -1,0 +1,13 @@
+#!/bin/sh
+# post-commit hook: send Telegram commit notification
+# Enable per repo: git config webhook.telegram true
+# Disable per repo: git config webhook.telegram false
+
+ENABLED=$(git config --local webhook.telegram)
+if [ "$ENABLED" != "true" ]; then
+    exit 0
+fi
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+powershell.exe -NoProfile -ExecutionPolicy Bypass \
+  -File "$REPO_ROOT/scripts/Send-CommitNotify.ps1"

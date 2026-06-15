@@ -1,0 +1,73 @@
+---
+description: WebhookForTG 通知服務層的介面與實作模式，新增 LINE/Telegram 以外的通知平台時須遵守
+globs: Services/**/*.cs
+alwaysApply: false
+---
+
+# 通知服務層模式
+
+## 標準結構
+
+每個通知平台需要兩個檔案：
+
+```
+Services/
+├── I{Platform}Service.cs   # 介面
+└── {Platform}Service.cs    # 實作
+```
+
+## 介面定義
+
+```csharp
+namespace WebhookForTG.Services;
+
+public interface I{Platform}Service
+{
+    Task<(bool Success, string? Error)> SendMessageAsync(string message);
+}
+```
+
+## 實作範本
+
+```csharp
+public class {Platform}Service : I{Platform}Service
+{
+    private readonly HttpClient _httpClient;
+    private readonly string _token;       // 從 appsettings 取得
+    private readonly ILogger<{Platform}Service> _logger;
+
+    public {Platform}Service(HttpClient httpClient, IConfiguration configuration, ILogger<{Platform}Service> logger)
+    {
+        _httpClient = httpClient;
+        _token = configuration["{Section}:{Key}"]
+            ?? throw new InvalidOperationException("{Section}:{Key} is not configured.");
+        _logger = logger;
+    }
+
+    public async Task<(bool Success, string? Error)> SendMessageAsync(string message)
+    {
+        try
+        {
+            // 呼叫平台 API...
+            _logger.LogInformation("{Platform} 發送成功");
+            return (true, null);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "{Platform} 發送時發生例外");
+            return (false, ex.Message);
+        }
+    }
+}
+```
+
+## Program.cs 注冊方式
+
+```csharp
+builder.Services.AddHttpClient<I{Platform}Service, {Platform}Service>();
+```
+
+## 規則
+- 服務層不可拋例外給上層，一律用 tuple 回傳
+- 失敗時記錄 `LogWarning` 或 `LogError`，成功記錄 `LogInformation`
+- 每個平台各自獨立的 `HttpClient`（透過 `AddHttpClient` 注冊）

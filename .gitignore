@@ -24,10 +24,7 @@ packages/
 .idea/
 *.sln.iml
 
-# VS Code
-.vscode/
-!.vscode/extensions.json
-!.vscode/settings.json
+
 
 # Publish output
 **/publish/
@@ -42,12 +39,23 @@ coverage/
 # Entity Framework migrations (若有需要保留，請移除此行)
 # Migrations/
 
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+
 ## Cursor
 # rules/skills 透過 Junction 指向個人共用資料夾，不隨 repo 上傳
 .cursor/rules/
 .cursor/skills/
 
 ## Secrets & Configuration
+
+# 本地環境變數（含真實 token，不可 commit）
+.env
+.env.local
+.env.*.local
 
 # 本地覆寫設定（含真實 token，不可 commit）
 appsettings.local.json
